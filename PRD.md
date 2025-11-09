@@ -1,14 +1,15 @@
 # Planning Guide
 
-HappyHourAI is the quickest path from "What's good tonight?" to finding the perfect happy hour deal near you - eliminating the hassle of checking dozens of websites.
+HappyHourAI is the quickest path from "What's good tonight?" to finding the perfect happy hour deal near you - eliminating the hassle of checking dozens of websites. **Now enhanced with modern glassmorphism aesthetics, extensive animations, and dynamic 3D interactions.**
 
 **Experience Qualities**:
-1. **Effortless** - Finding a great deal should take seconds, not minutes of scrolling through outdated websites
-2. **Trustworthy** - Every deal shown is current, verified, and clearly timestamped so users feel confident
-3. **Joyful** - The experience should feel like the exciting start of a good night out, not a chore
+1. **Effortless** - Finding a great deal should take seconds, not minutes of scrolling through outdated websites. The interface flows naturally with intuitive interactions and smooth transitions.
+2. **Trustworthy** - Every deal shown is current, verified, and clearly timestamped so users feel confident. Visual cues reinforce reliability.
+3. **Joyful** - The experience should feel like the exciting start of a good night out, not a chore. Delightful animations and vibrant design evoke celebration and anticipation.
 
-**Complexity Level**: Light Application (multiple features with basic state)
+**Complexity Level**: Light Application (multiple features with basic state) **→ Enhanced to Medium Application with advanced UI/UX**
   - Core functionality includes search/filter, venue browsing, and deal discovery with persistent favorites and user preferences
+  - **NEW**: Advanced glassmorphism design system, 3D interactive elements, comprehensive animation framework, floating decorative elements, real-time statistics, and dynamic visual feedback throughout
 
 ## Essential Features
 
@@ -60,6 +61,8 @@ HappyHourAI is the quickest path from "What's good tonight?" to finding the perf
 
 The design should feel modern, vibrant, and social - evoking the optimism of after-work gatherings while maintaining clarity and speed. Think "Friday evening energy" rather than corporate or cluttered. The interface should be minimal and focused, removing every unnecessary click between the user and their perfect happy hour.
 
+**Enhanced Implementation**: Modern glassmorphism aesthetic with semi-transparent cards, backdrop blur effects, layered shadows for depth, and stacked 3D elements. Animated gradient backgrounds with parallax drift effects. Extensive use of spring physics animations for natural, delightful interactions. Mouse-tracking 3D tilt effects on cards. Floating decorative elements throughout the interface.
+
 ## Color Selection
 
 Triadic color scheme (three equally spaced colors) that evokes warmth, celebration, and trust - balancing the excitement of nightlife with the reliability of accurate information.
@@ -96,56 +99,75 @@ Typefaces should feel friendly and contemporary without sacrificing legibility -
 
 Animations should enhance the sense of discovery and celebration, making the experience feel alive and responsive, while never delaying critical information or actions.
 
-- **Purposeful Meaning**: Quick spring animations on deal cards create energy; smooth transitions between views maintain spatial context; subtle pulse on "active now" badges draws attention to urgency
-- **Hierarchy of Movement**: Primary focus on deal appearance and filtering transitions (300ms); secondary on favorites/saves (200ms); subtle hover states on interactive elements (150ms)
+- **Purposeful Meaning**: Quick spring animations on deal cards create energy; smooth transitions between views maintain spatial context; subtle pulse on "active now" badges draws attention to urgency. **Enhanced with 3D transforms, mouse tracking, shimmer effects, and floating ambient animations.**
+- **Hierarchy of Movement**: Primary focus on deal appearance and filtering transitions (300ms); secondary on favorites/saves (200ms); subtle hover states on interactive elements (150ms). **Added staggered entrance animations (50ms delays), continuous ambient animations (2-6s loops), and gesture-responsive 3D tilting.**
+
+**New Animation Types Implemented**:
+- **Pulse Glow**: Box-shadow expansion for active elements (2s loop)
+- **Shimmer**: Gradient sweep on hover interactions (3s infinite)
+- **Floating**: Vertical translation with rotation for ambient life (6s loop)
+- **Parallax Drift**: Background gradient movement (30s loop)
+- **3D Tilt**: Mouse-tracking perspective transforms on cards
+- **Stacked Layers**: Pseudo-element depth effects with progressive blur
+- **Spring Physics**: Natural bounce on all interactive elements
+- **Stagger Cascade**: Sequential reveals with 50-100ms delays
+- **Icon Rotations**: 180-360° spins on state changes
+- **Scale Transforms**: 1.05x hover, 0.95x tap feedback
 
 ## Component Selection
 
 - **Components**:
-  - Cards: Venue and deal cards with subtle shadows and hover lift effects, rounded corners matching brand
-  - Buttons: Primary (solid accent), Secondary (outline coral), Ghost (for filters)
-  - Input: Search field with icon prefix, rounded full for modern feel
-  - Badges: Small rounded badges for deal types, time status, price indicators
-  - Dialog: For venue details on mobile, side sheet on desktop
-  - Tabs: For switching between list/map views and filter categories
-  - Skeleton: Loading states for venue cards
-  - ScrollArea: For long venue lists and deal details
-  - Switch: For toggling "active now" filter
-  - Select: For time and day filtering
+  - **Cards**: Venue and deal cards with glassmorphic backgrounds, backdrop blur, multi-layer shadows, 3D stacked effects, and mouse-tracking tilt on hover
+  - **Buttons**: Primary (gradient accent), Secondary (outline coral with glass), Ghost (for filters) - all with spring physics on interaction
+  - **Input**: Search field with icon prefix, glass background, animated focus ring with gradient glow
+  - **Badges**: Rounded badges with pulse glow for active states, gradient fills, icon integration
+  - **Dialog**: Enhanced with glass-strong background, staggered content reveals, larger sizing for impact
+  - **Stats Cards**: New quick statistics component with animated icons and gradient backgrounds
+  - **Floating Decor**: Ambient animated icons drifting across the background
+  - **ScrollArea**: For long venue lists and deal details with custom styling
+  - **Switch**: Animated toggle for "active now" filter with scale feedback
+  - **Separator**: Subtle translucent dividers matching glass aesthetic
 
 - **Customizations**:
-  - Custom venue card component with image, deal tags, rating display, and favorite toggle
-  - Time-aware "active now" indicator with animated pulse
-  - Price level indicator ($ to $$$) as custom badge group
-  - Custom map pin design matching brand colors
+  - **Venue Cards**: Glass backgrounds, 3D mouse tracking, image zoom on hover, shimmer overlay, stacked pseudo-elements, gradient overlays
+  - **Filter Panel**: Glass card with floating animation, gradient buttons on selection, active filter summary section
+  - **Time Indicator**: Animated pulse glow on "active now" badges with continuous subtle scale
+  - **Price Display**: Gradient badge groups with hover scale and pulse effects
+  - **Header**: Scroll-responsive opacity, animated logo glow, dynamic shadow intensity
+  - **Empty States**: Glass containers with floating animation and gradient text
 
 - **States**:
-  - Buttons: Default with solid fill, hover with subtle lift and brightness increase, active with press depression, disabled with reduced opacity
-  - Cards: Default with border, hover with shadow elevation and scale (102%), selected with accent border glow
-  - Inputs: Default with border, focus with accent ring and border color shift, error with destructive color, success with green accent
+  - **Buttons**: Default solid/glass, hover with 1.05x scale + brightness, active with 0.95x press, disabled with 40% opacity
+  - **Cards**: Default with glass blur, hover with enhanced shadow + 1.03x scale + 3D tilt, selected with accent border + glow
+  - **Inputs**: Default glass, focus with accent ring + gradient expansion + border color shift, error with destructive color
+  - **Interactive Elements**: All have tap feedback (0.9-0.95x scale), rotation effects on state change, spring physics transitions
 
 - **Icon Selection**:
-  - MapPin for location-related actions
-  - FunnelSimple for filter controls
-  - Heart/HeartFilled for favorites
-  - Clock for time indicators
-  - ShareNetwork for sharing deals
+  - MapPin for location (primary color, filled)
+  - FunnelSimple for filters (rotates 180° on toggle)
+  - Heart/HeartFilled for favorites (pulses on toggle)
+  - Clock for time (with active deal indicators)
+  - ShareNetwork for sharing
   - MagnifyingGlass for search
-  - Wine, BeerBottle, Martini for drink type tags
-  - Star/StarFilled for ratings
+  - Wine, BeerBottle, Martini, ForkKnife for deal types (rotate on selection)
+  - Star/StarFilled for ratings (accent color)
   - NavigationArrow for directions
+  - **Sparkle for accents and magical moments (accent color)**
+  - **Fire, TrendUp for statistics**
 
 - **Spacing**:
   - Container padding: px-4 (mobile), px-6 (tablet), px-8 (desktop)
-  - Card gaps: gap-4 in grid layouts
-  - Section spacing: mb-8 between major sections
-  - Internal card padding: p-4 (compact), p-6 (detailed)
+  - Card gaps: gap-6 → gap-8 in grid layouts (increased for breathing room)
+  - Section spacing: mb-8 → mb-12 between major sections
+  - Internal card padding: p-6 (compact), p-8 (detailed) - increased for premium feel
   - Button padding: px-6 py-3 (primary), px-4 py-2 (secondary)
+  - Border radius: 1rem base, up to 3rem (rounded-3xl) for cards
 
 - **Mobile**:
   - Single column card layout below 768px
-  - Bottom sheet for filters and venue details on mobile
-  - Sticky search header on scroll
+  - Bottom sheet for filters and venue details on mobile (future enhancement)
+  - Sticky glass header with scroll-responsive styling
   - Larger touch targets (min 44px) for all interactive elements
-  - Collapsible filter chips that expand to full panel
-  - Stack map view in tab rather than split view on small screens
+  - Reduced animation complexity on mobile for performance
+  - Floating decorations adapted for smaller screens
+  - Stats cards stack vertically with maintained animations
