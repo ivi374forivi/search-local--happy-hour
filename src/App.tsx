@@ -30,6 +30,8 @@ import { MenuItemEditor } from '@/components/MenuItemEditor';
 import { HappyHourSpecialCreator } from '@/components/HappyHourSpecialCreator';
 import { VenueManagementDashboard } from '@/components/VenueManagementDashboard';
 import { NotificationCenter } from '@/components/NotificationCenter';
+import { RecommendationsPanel } from '@/components/RecommendationsPanel';
+import { ItineraryGenerator } from '@/components/ItineraryGenerator';
 import { MagnifyingGlass, FunnelSimple, Heart, MapPin, Sparkle, CalendarBlank, Users as UsersIcon, Fire, ChatCircleDots, User, DiceFive, Briefcase, Envelope, Plus, Martini } from '@phosphor-icons/react';
 import { Venue, FilterState, UserRole, ThemedEvent, DrinkingTheme, DailyContent, SocialThread, UserProfile, VenueVisit, Achievement, Review, DirectMessageConversation, DirectMessage, MenuItem, Deal, Notification } from '@/lib/types';
 import { createAchievementNotification, addNotification as addNotificationHelper } from '@/lib/notification-service';
@@ -815,6 +817,20 @@ function App() {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Bar Crawl Itinerary Generator */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-12"
+                >
+                  <ItineraryGenerator
+                    allVenues={MOCK_VENUES}
+                    visitHistory={visitHistory}
+                    favoriteVenues={favorites}
+                  />
+                </motion.div>
               </TabsContent>
 
               <TabsContent value="social" className="mt-0">
