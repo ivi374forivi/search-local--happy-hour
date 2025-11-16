@@ -21,7 +21,7 @@ import { DailyContentDisplay } from '@/components/DailyContentDisplay';
 import { ThreadChat } from '@/components/ThreadChat';
 import { UserProfileModal } from '@/components/UserProfileModal';
 import { BartenderScheduling } from '@/components/BartenderScheduling';
-import { DrinkingGamesGenerator } from '@/components/DrinkingGamesGenerator';
+import { DrinkingGamesLibrary } from '@/components/DrinkingGamesLibrary';
 import { ReviewSubmissionModal } from '@/components/ReviewSubmissionModal';
 import { DirectMessageList } from '@/components/DirectMessageList';
 import { DirectMessageThread } from '@/components/DirectMessageThread';
@@ -880,7 +880,7 @@ function App() {
               </TabsContent>
 
               <TabsContent value="games" className="mt-0">
-                <DrinkingGamesGenerator />
+                <DrinkingGamesLibrary />
               </TabsContent>
 
               <TabsContent value="profile" className="mt-0">
