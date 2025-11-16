@@ -117,6 +117,9 @@ export interface UserProfile {
   };
   achievements?: Achievement[];
   visitHistory?: VenueVisit[];
+  rsvpdEvents?: string[];
+  reviewsWritten?: string[];
+  threadParticipation?: string[];
   createdAt: string;
 }
 
@@ -134,6 +137,7 @@ export interface VenueVisit {
   date: string;
   rating?: number;
   reviewed: boolean;
+  themes?: DrinkingTheme[];
 }
 
 export interface FilterState {

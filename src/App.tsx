@@ -22,8 +22,9 @@ import { ThreadChat } from '@/components/ThreadChat';
 import { UserProfileModal } from '@/components/UserProfileModal';
 import { BartenderScheduling } from '@/components/BartenderScheduling';
 import { DrinkingGamesGenerator } from '@/components/DrinkingGamesGenerator';
+import { ReviewSubmissionModal } from '@/components/ReviewSubmissionModal';
 import { MagnifyingGlass, FunnelSimple, Heart, MapPin, Sparkle, CalendarBlank, Users as UsersIcon, Fire, ChatCircleDots, User, DiceFive, Briefcase } from '@phosphor-icons/react';
-import { Venue, FilterState, UserRole, ThemedEvent, DrinkingTheme, DailyContent, SocialThread, UserProfile, VenueVisit, Achievement } from '@/lib/types';
+import { Venue, FilterState, UserRole, ThemedEvent, DrinkingTheme, DailyContent, SocialThread, UserProfile, VenueVisit, Achievement, Review } from '@/lib/types';
 import { MOCK_VENUES, MOCK_BARTENDERS, MOCK_EVENTS, MOCK_SOCIAL_THREADS, MOCK_CALENDAR_EVENTS } from '@/lib/mock-data';
 import { isDealActiveNow } from '@/lib/time-utils';
 import { generateDailyContent } from '@/lib/daily-content-service';
@@ -35,11 +36,15 @@ function App() {
   const [favorites, setFavorites] = useKV<string[]>('favorites', []);
   const [favoriteBartenders, setFavoriteBartenders] = useKV<string[]>('favorite-bartenders', []);
   const [rsvpdEvents, setRsvpdEvents] = useKV<string[]>('rsvpd-events', []);
+  const [reviewsWritten, setReviewsWritten] = useKV<string[]>('reviews-written', []);
+  const [threadParticipation, setThreadParticipation] = useKV<string[]>('thread-participation', []);
   const [selectedTheme, setSelectedTheme] = useKV<DrinkingTheme | null>('selected-theme', null);
   const [dailyContent, setDailyContent] = useKV<DailyContent | null>('daily-content', null);
   const [visitHistory, setVisitHistory] = useKV<VenueVisit[]>('visit-history', []);
   const [achievements, setAchievements] = useKV<Achievement[]>('achievements', []);
+  const [userReviews, setUserReviews] = useKV<Review[]>('user-reviews', []);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedThread, setSelectedThread] = useState<SocialThread | null>(null);
   const [showProfile, setShowProfile] = useState(false);
   const [showScheduling, setShowScheduling] = useState(false);
@@ -123,14 +128,17 @@ function App() {
         return favs.filter(id => id !== venueId);
       }
       toast.success('Added to favorites!');
-      
+
+      // Find the venue to get its themes
+      const venue = MOCK_VENUES.find(v => v.id === venueId);
       const newVisit: VenueVisit = {
         venueId,
         date: new Date().toISOString(),
-        reviewed: false
+        reviewed: false,
+        themes: venue?.drinkingThemes || []
       };
       setVisitHistory((current) => [...(current || []), newVisit]);
-      
+
       return [...favs, venueId];
     });
   };
@@ -147,6 +155,9 @@ function App() {
         favoriteBartenders: favoriteBartenders || [],
         following: [],
         visitHistory: visitHistory,
+        rsvpdEvents: rsvpdEvents || [],
+        reviewsWritten: reviewsWritten || [],
+        threadParticipation: threadParticipation || [],
         achievements: achievements,
         createdAt: new Date().toISOString()
       };
@@ -161,7 +172,7 @@ function App() {
         });
       }
     }
-  }, [visitHistory?.length, favoriteBartenders?.length]);
+  }, [visitHistory?.length, favoriteBartenders?.length, rsvpdEvents?.length, reviewsWritten?.length, threadParticipation?.length]);
 
   const toggleBartenderFollow = (bartenderId: string) => {
     setFavoriteBartenders((currentFavorites) => {
@@ -185,6 +196,46 @@ function App() {
       toast.success('RSVP confirmed!');
       return [...rsvps, eventId];
     });
+  };
+
+  const trackThreadParticipation = (threadId: string) => {
+    setThreadParticipation((current) => {
+      const participation = current || [];
+      if (!participation.includes(threadId)) {
+        return [...participation, threadId];
+      }
+      return participation;
+    });
+  };
+
+  const handleSubmitReview = (review: Omit<Review, 'id' | 'userId' | 'date' | 'helpfulCount'>) => {
+    const newReview: Review = {
+      ...review,
+      id: `review-${Date.now()}`,
+      userId: 'user-1',
+      date: new Date().toISOString(),
+      helpfulCount: 0
+    };
+
+    setUserReviews((current) => [...(current || []), newReview]);
+
+    // Track review for achievements
+    setReviewsWritten((current) => {
+      const reviews = current || [];
+      if (!reviews.includes(newReview.id)) {
+        return [...reviews, newReview.id];
+      }
+      return reviews;
+    });
+
+    // Mark visit as reviewed if exists
+    setVisitHistory((current) =>
+      (current || []).map(visit =>
+        visit.venueId === review.venueId
+          ? { ...visit, reviewed: true, rating: review.rating }
+          : visit
+      )
+    );
   };
 
   const allEvents = useMemo(() => {
@@ -781,6 +832,22 @@ function App() {
         venue={selectedVenue}
         open={!!selectedVenue}
         onOpenChange={(open) => !open && setSelectedVenue(null)}
+        userReviews={userReviews}
+        onWriteReview={() => {
+          if (selectedVenue) {
+            setShowReviewModal(true);
+          }
+        }}
+      />
+
+      <ReviewSubmissionModal
+        venue={selectedVenue}
+        open={showReviewModal}
+        onOpenChange={setShowReviewModal}
+        onSubmit={handleSubmitReview}
+        currentUserId="user-1"
+        currentUserName="You"
+        currentUserAvatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400"
       />
 
       <Dialog open={!!selectedThread} onOpenChange={(open) => !open && setSelectedThread(null)}>
@@ -797,6 +864,7 @@ function App() {
                 currentUserName="You"
                 currentUserAvatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400"
                 currentUserRole={userRole || 'the-drinker'}
+                onMessageSent={trackThreadParticipation}
               />
             </div>
           )}
